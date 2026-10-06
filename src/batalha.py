@@ -1,5 +1,5 @@
 from random import randint
-from personagens import Guerreiro, Inimigo, PocaoVida, Orc
+from personagens import Guerreiro, Inimigo, PocaoVida, Orc, Chefe
 
 
 class Batalha:
@@ -41,6 +41,7 @@ class Torre:
             Inimigo("Sentinela", 125, 20, 85),
             Inimigo("Campeao", 140, 22, 80),
             Inimigo("Executor", 155, 23, 85),
+            Chefe(),
         ]
         self.indice = 0
         self.sortear = sortear

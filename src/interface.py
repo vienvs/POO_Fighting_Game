@@ -1,5 +1,5 @@
 import pygame
-from personagens import Guerreiro, Mago, Arqueiro
+from personagens import Guerreiro, Mago, Arqueiro, Chefe
 from batalha import Torre
 
 
@@ -8,6 +8,7 @@ ARTES = {
     'Inimigo': [' /\\ /\\', '( o o )', ' / V \\', '  / \\'],
     'Mago': ['   /\\', '  /__\\', '   O  *', '  /|\\ |', '  / \\ |'],
     'Arqueiro': ['   O  )', '  /|--)>', '   |  )', '  / \\'],
+    'Chefe': [' /\\/\\/\\', ' |o  o|', '/|_VV_|\\', '||----||', ' /    \\'],
 }
 
 
@@ -78,13 +79,18 @@ class Jogo:
         self.texto(f"TORRE | Luta {self.torre.andar}/{len(self.torre.inimigos)} | {self.torre.estado.upper()}", 35, 25)
         self.texto('F1: Guerreiro | F2: Mago | F3: Arqueiro | R: reiniciar | ESC: sair', 35, 57)
         self.personagem(jogador, jogador.nome, 50, (87, 207, 170))
-        arte = "Inimigo"
+        arte = "Chefe" if isinstance(inimigo, Chefe) else "Inimigo"
         self.personagem(inimigo, arte, 450, (236, 116, 112))
         self.texto(f"Mana: {jogador.mana}/{jogador.mana_maxima}", 50, 400)
         self.texto(f"P: poção (+50 vida) | Estoque: {len(jogador.inventario)}", 50, 430)
         for i, ataque in enumerate(jogador.ataques, 1):
             self.texto(f"{i}: {ataque}", 50, 460 + (i - 1) * 28)
-        self.texto(str(inimigo.ataques[0]), 450, 400)
+        ataque = inimigo.ataques[0]
+        if isinstance(inimigo, Chefe) and inimigo.vida <= inimigo.vida_maxima // 2:
+            ataque = inimigo.ataques[1]
+        self.texto(str(ataque), 450, 400)
+        if isinstance(inimigo, Chefe):
+            self.texto("Fúria com vida <= 90: 32 dano, 75%", 450, 430)
         self.texto("TORRE", 835, 100, (240, 199, 93))
         for i in range(len(self.torre.inimigos) - 1, -1, -1):
             nome = self.torre.inimigos[i].nome

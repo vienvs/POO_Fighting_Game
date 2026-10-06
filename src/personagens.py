@@ -129,3 +129,16 @@ class Arqueiro(Personagem):
 class Orc(Inimigo):
     def __init__(self):
         super().__init__("Orc", 90, 14, 80)
+
+
+class Chefe(Inimigo):
+    def __init__(self):
+        super().__init__("Guardiao da torre", 180, 24, 85)
+        self.ataques.append(Ataque("Furia", 32, 75))
+
+    def atacar(self, alvo, indice=0, sortear=randint):
+        if self.vida <= self.vida_maxima // 2:
+            indice = 1
+        else:
+            indice = 0
+        return super().atacar(alvo, indice, sortear)
