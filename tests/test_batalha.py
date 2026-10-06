@@ -39,3 +39,8 @@ class TestBatalha(unittest.TestCase):
 
     def test_orc_na_torre(self):
         self.assertEqual(Torre().inimigos[1].nome, "Orc")
+
+    def test_nove_inimigos_e_um_chefe(self):
+        torre = Torre()
+        self.assertEqual(len(torre.inimigos), 10)
+        self.assertEqual(torre.inimigos[-1].nome, "Guardiao da torre")

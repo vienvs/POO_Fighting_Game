@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock
-from personagens import Personagem, Ataque, Guerreiro, Inimigo, Mago, PocaoVida, Arqueiro, Orc
+from personagens import Personagem, Ataque, Guerreiro, Inimigo, Mago, PocaoVida, Arqueiro, Orc, Chefe
 
 
 class TestPersonagens(unittest.TestCase):
@@ -72,3 +72,11 @@ class TestPersonagens(unittest.TestCase):
         self.assertIsInstance(orc, Inimigo)
         orc.atacar(p, sortear=Mock(return_value=1))
         self.assertEqual(p.vida, 126)
+
+    def test_furia_chefe(self):
+        p, chefe = Guerreiro(), Chefe()
+        chefe.atacar(p, sortear=Mock(return_value=1))
+        self.assertEqual(p.vida, 116)
+        chefe.receber_dano(90)
+        chefe.atacar(p, sortear=Mock(return_value=1))
+        self.assertEqual(p.vida, 84)
