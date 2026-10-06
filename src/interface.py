@@ -1,5 +1,5 @@
 import pygame
-from personagens import Guerreiro, Mago
+from personagens import Guerreiro, Mago, Arqueiro
 from batalha import Torre
 
 
@@ -7,6 +7,7 @@ ARTES = {
     'Guerreiro': ['   O   /', '  /|--/', ' [ |', '  / \\'],
     'Inimigo': [' /\\ /\\', '( o o )', ' / V \\', '  / \\'],
     'Mago': ['   /\\', '  /__\\', '   O  *', '  /|\\ |', '  / \\ |'],
+    'Arqueiro': ['   O  )', '  /|--)>', '   |  )', '  / \\'],
 }
 
 
@@ -44,6 +45,9 @@ class Jogo:
         elif tecla == pygame.K_F2:
             self.classe = Mago
             self.reiniciar()
+        elif tecla == pygame.K_F3:
+            self.classe = Arqueiro
+            self.reiniciar()
         elif tecla == pygame.K_RETURN:
             self.torre.avancar()
         elif tecla == pygame.K_p:
@@ -72,7 +76,7 @@ class Jogo:
         inimigo = self.torre.batalha.inimigo
         mensagens = self.torre.mensagens
         self.texto(f"TORRE | Luta {self.torre.andar}/{len(self.torre.inimigos)} | {self.torre.estado.upper()}", 35, 25)
-        self.texto('F1: Guerreiro | F2: Mago | R: reiniciar | ESC: sair', 35, 57)
+        self.texto('F1: Guerreiro | F2: Mago | F3: Arqueiro | R: reiniciar | ESC: sair', 35, 57)
         self.personagem(jogador, jogador.nome, 50, (87, 207, 170))
         arte = "Inimigo"
         self.personagem(inimigo, arte, 450, (236, 116, 112))

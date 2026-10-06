@@ -116,3 +116,11 @@ class Mago(Personagem):
         self.ataques = [Ataque("Cajado", 16, 95),
                         Ataque("Raio", 34, 90, 8),
                         Ataque("Tempestade", 48, 75, 14)]
+
+
+class Arqueiro(Personagem):
+    def __init__(self):
+        super().__init__("Arqueiro", 120)
+        self.ataques = [Ataque("Tiro rapido", 20, 95),
+                        Ataque("Tiro preciso", 31, 85),
+                        Ataque("Flecha pesada", 44, 65)]
