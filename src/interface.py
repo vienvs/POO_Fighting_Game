@@ -27,6 +27,7 @@ class Jogo:
         self.jogador = self.classe()
         self.inimigo = Inimigo("Goblin", 65, 10, 80)
         self.mensagens = ["R: reiniciar. ESC: sair."]
+        self.jogador.inventario = [PocaoVida() for _ in range(3)]
 
     def eventos(self):
         for evento in pygame.event.get():
@@ -53,7 +54,7 @@ class Jogo:
                 elif tecla == pygame.K_e:
                     self.mensagens.append(self.inimigo.atacar(self.jogador))
                 elif tecla == pygame.K_p:
-                    self.mensagens.append(PocaoVida().usar(self.jogador))
+                    self.mensagens.append(self.jogador.usar_pocao())
             except ValueError as erro:
                 self.mensagens.append(str(erro))
             self.mensagens = self.mensagens[-4:]
@@ -84,7 +85,7 @@ class Jogo:
         arte = "Inimigo"
         self.personagem(inimigo, arte, 450, (236, 116, 112))
         self.texto(f"Mana: {jogador.mana}/{jogador.mana_maxima}", 50, 400)
-        self.texto("P: usar poção (+50 vida)", 50, 430)
+        self.texto(f"P: poção (+50 vida) | Estoque: {len(jogador.inventario)}", 50, 430)
         for i, ataque in enumerate(jogador.ataques, 1):
             self.texto(f"{i}: {ataque}", 50, 460 + (i - 1) * 28)
         self.texto("E: testar ataque do inimigo", 450, 400)

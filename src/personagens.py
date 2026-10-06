@@ -39,6 +39,7 @@ class Personagem:
         self.mana_maxima = mana
         self._mana = mana
         self.ataques = []
+        self.inventario = []
 
     @property
     def vida(self):
@@ -66,6 +67,13 @@ class Personagem:
         cura = min(quantidade, self.vida_maxima - self.vida)
         self._vida += cura
         return cura
+
+    def usar_pocao(self):
+        if not self.inventario:
+            raise ValueError("Suas poções acabaram.")
+        mensagem = self.inventario[0].usar(self)
+        self.inventario.pop(0)
+        return mensagem
 
     def atacar(self, alvo, indice=0, sortear=randint):
         if not self.esta_vivo() or not alvo.esta_vivo():
