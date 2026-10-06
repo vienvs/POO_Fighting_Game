@@ -1,9 +1,10 @@
 import pygame
-from personagens import Personagem
+from personagens import Personagem, Guerreiro
 
 
 ARTES = {
     'Personagem': ['   O', '  /|\\', '  / \\'],
+    'Guerreiro': ['   O   /', '  /|--/', ' [ |', '  / \\'],
 }
 
 
@@ -17,11 +18,11 @@ class Jogo:
         self.fonte = pygame.font.SysFont("consolas", 18)
         self.fonte_arte = pygame.font.SysFont("consolas", 32)
         self.rodando = True
-        self.classe = Personagem
+        self.classe = Guerreiro
         self.reiniciar()
 
     def reiniciar(self):
-        self.jogador = Personagem("Jogador", 140)
+        self.jogador = self.classe()
         self.inimigo = Personagem("Alvo", 100)
         self.mensagens = ["R: reiniciar. ESC: sair."]
 
@@ -37,11 +38,13 @@ class Jogo:
             self.rodando = False
         elif tecla == pygame.K_r:
             self.reiniciar()
+        elif tecla == pygame.K_F1:
+            self.classe = Guerreiro
+            self.reiniciar()
         else:
             try:
-                if tecla == pygame.K_d:
-                    dano = self.jogador.receber_dano(30)
-                    self.mensagens.append(f"Recebeu {dano} de dano.")
+                if tecla in (pygame.K_1, pygame.K_2, pygame.K_3):
+                    self.mensagens.append(self.jogador.atacar(self.inimigo, tecla - pygame.K_1))
             except ValueError as erro:
                 self.mensagens.append(str(erro))
             self.mensagens = self.mensagens[-4:]
@@ -67,11 +70,12 @@ class Jogo:
         inimigo = self.inimigo
         mensagens = self.mensagens
         self.texto("POO FIGHTING GAME", 35, 25)
-        self.texto('R: reiniciar | ESC: sair', 35, 57)
-        self.personagem(jogador, "Personagem", 50, (87, 207, 170))
+        self.texto('F1: Guerreiro | R: reiniciar | ESC: sair', 35, 57)
+        self.personagem(jogador, jogador.nome, 50, (87, 207, 170))
         arte = "Personagem"
         self.personagem(inimigo, arte, 450, (236, 116, 112))
-        self.texto("D: receber 30 de dano", 50, 430)
+        for i, ataque in enumerate(jogador.ataques, 1):
+            self.texto(f"{i}: {ataque}", 50, 460 + (i - 1) * 28)
         for i, mensagem in enumerate(mensagens[-4:]):
             self.texto(mensagem, 35, 595 + i * 27)
         pygame.display.flip()
