@@ -37,6 +37,14 @@ class Jogo:
             self.rodando = False
         elif tecla == pygame.K_r:
             self.reiniciar()
+        else:
+            try:
+                if tecla == pygame.K_d:
+                    dano = self.jogador.receber_dano(30)
+                    self.mensagens.append(f"Recebeu {dano} de dano.")
+            except ValueError as erro:
+                self.mensagens.append(str(erro))
+            self.mensagens = self.mensagens[-4:]
 
     def texto(self, texto, x, y, cor=(224, 228, 236), fonte=None):
         if fonte is None:
@@ -63,6 +71,7 @@ class Jogo:
         self.personagem(jogador, "Personagem", 50, (87, 207, 170))
         arte = "Personagem"
         self.personagem(inimigo, arte, 450, (236, 116, 112))
+        self.texto("D: receber 30 de dano", 50, 430)
         for i, mensagem in enumerate(mensagens[-4:]):
             self.texto(mensagem, 35, 595 + i * 27)
         pygame.display.flip()
