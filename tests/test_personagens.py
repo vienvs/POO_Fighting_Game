@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock
-from personagens import Personagem
+from personagens import Personagem, Ataque, Guerreiro
 
 
 class TestPersonagens(unittest.TestCase):
@@ -17,3 +17,11 @@ class TestPersonagens(unittest.TestCase):
             p.receber_dano(-1)
         self.assertEqual(p.receber_dano(200), 70)
         self.assertFalse(p.esta_vivo())
+
+    def test_ataques_guerreiro(self):
+        p, alvo = Guerreiro(), Personagem("Alvo", 100)
+        self.assertEqual(len(p.ataques), 3)
+        p.atacar(alvo, 1, Mock(return_value=80))
+        self.assertEqual(alvo.vida, 70)
+        p.atacar(alvo, 1, Mock(return_value=81))
+        self.assertEqual(alvo.vida, 70)
