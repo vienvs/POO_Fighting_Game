@@ -13,3 +13,10 @@ class Personagem:
 
     def esta_vivo(self):
         return self.vida > 0
+
+    def receber_dano(self, dano):
+        if type(dano) is not int or dano < 0:
+            raise ValueError("Dano deve ser um inteiro não negativo.")
+        recebido = min(self.vida, dano)
+        self._vida -= recebido
+        return recebido
