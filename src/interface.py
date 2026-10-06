@@ -81,6 +81,7 @@ class Jogo:
         self.personagem(jogador, jogador.nome, 50, (87, 207, 170))
         arte = "Inimigo"
         self.personagem(inimigo, arte, 450, (236, 116, 112))
+        self.texto(f"Mana: {jogador.mana}/{jogador.mana_maxima}", 50, 400)
         for i, ataque in enumerate(jogador.ataques, 1):
             self.texto(f"{i}: {ataque}", 50, 460 + (i - 1) * 28)
         self.texto("E: testar ataque do inimigo", 450, 400)
