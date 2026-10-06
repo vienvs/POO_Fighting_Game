@@ -1,10 +1,9 @@
 import pygame
-from personagens import Personagem, Guerreiro, Inimigo, Mago, PocaoVida
-from batalha import Batalha
+from personagens import Guerreiro, Mago
+from batalha import Torre
 
 
 ARTES = {
-    'Personagem': ['   O', '  /|\\', '  / \\'],
     'Guerreiro': ['   O   /', '  /|--/', ' [ |', '  / \\'],
     'Inimigo': [' /\\ /\\', '( o o )', ' / V \\', '  / \\'],
     'Mago': ['   /\\', '  /__\\', '   O  *', '  /|\\ |', '  / \\ |'],
@@ -25,11 +24,7 @@ class Jogo:
         self.reiniciar()
 
     def reiniciar(self):
-        self.jogador = self.classe()
-        self.inimigo = Inimigo("Goblin", 65, 10, 80)
-        self.mensagens = ["R: reiniciar. ESC: sair."]
-        self.jogador.inventario = [PocaoVida() for _ in range(3)]
-        self.batalha = Batalha(self.jogador, self.inimigo)
+        self.torre = Torre(self.classe)
 
     def eventos(self):
         for evento in pygame.event.get():
@@ -49,15 +44,12 @@ class Jogo:
         elif tecla == pygame.K_F2:
             self.classe = Mago
             self.reiniciar()
-        else:
-            try:
-                if tecla in (pygame.K_1, pygame.K_2, pygame.K_3):
-                    self.mensagens.extend(self.batalha.agir(tecla - pygame.K_1))
-                elif tecla == pygame.K_p:
-                    self.mensagens.extend(self.batalha.agir(pocao=True))
-            except ValueError as erro:
-                self.mensagens.append(str(erro))
-            self.mensagens = self.mensagens[-4:]
+        elif tecla == pygame.K_RETURN:
+            self.torre.avancar()
+        elif tecla == pygame.K_p:
+            self.torre.agir(pocao=True)
+        elif tecla in (pygame.K_1, pygame.K_2, pygame.K_3):
+            self.torre.agir(tecla - pygame.K_1)
 
     def texto(self, texto, x, y, cor=(224, 228, 236), fonte=None):
         if fonte is None:
@@ -76,10 +68,10 @@ class Jogo:
 
     def desenhar(self):
         self.tela.fill((18, 21, 29))
-        jogador = self.jogador
-        inimigo = self.inimigo
-        mensagens = self.mensagens
-        self.texto("POO FIGHTING GAME", 35, 25)
+        jogador = self.torre.jogador
+        inimigo = self.torre.batalha.inimigo
+        mensagens = self.torre.mensagens
+        self.texto(f"TORRE | Luta {self.torre.andar}/{len(self.torre.inimigos)} | {self.torre.estado.upper()}", 35, 25)
         self.texto('F1: Guerreiro | F2: Mago | R: reiniciar | ESC: sair', 35, 57)
         self.personagem(jogador, jogador.nome, 50, (87, 207, 170))
         arte = "Inimigo"
@@ -89,6 +81,16 @@ class Jogo:
         for i, ataque in enumerate(jogador.ataques, 1):
             self.texto(f"{i}: {ataque}", 50, 460 + (i - 1) * 28)
         self.texto(str(inimigo.ataques[0]), 450, 400)
+        self.texto("TORRE", 835, 100, (240, 199, 93))
+        for i in range(len(self.torre.inimigos) - 1, -1, -1):
+            nome = self.torre.inimigos[i].nome
+            cor = (144, 152, 168)
+            if i == self.torre.indice:
+                cor = (240, 199, 93)
+            elif i < self.torre.indice:
+                cor = (87, 207, 170)
+            self.texto(f"{i + 1:02d} {nome}", 835, 140 + (len(self.torre.inimigos) - 1 - i) * 31, cor)
+        self.texto("ENTER: próxima luta após vitória", 50, 550)
         for i, mensagem in enumerate(mensagens[-4:]):
             self.texto(mensagem, 35, 595 + i * 27)
         pygame.display.flip()

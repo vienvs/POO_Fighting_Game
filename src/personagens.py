@@ -75,6 +75,12 @@ class Personagem:
         self.inventario.pop(0)
         return mensagem
 
+    def descansar(self):
+        if not self.esta_vivo():
+            raise ValueError("Um personagem derrotado não pode descansar.")
+        self._vida = min(self.vida_maxima, self.vida + 40)
+        self._mana = min(self.mana_maxima, self.mana + 40)
+
     def atacar(self, alvo, indice=0, sortear=randint):
         if not self.esta_vivo() or not alvo.esta_vivo():
             raise ValueError("Atacante e alvo precisam estar vivos.")
