@@ -50,3 +50,13 @@ class TestPersonagens(unittest.TestCase):
         self.assertEqual(p.vida, 140)
         with self.assertRaises(ValueError):
             PocaoVida().usar(p)
+
+    def test_consumo_de_pocao(self):
+        p = Guerreiro()
+        p.inventario = [PocaoVida()]
+        with self.assertRaises(ValueError):
+            p.usar_pocao()
+        self.assertEqual(len(p.inventario), 1)
+        p.receber_dano(70)
+        p.usar_pocao()
+        self.assertEqual((p.vida, len(p.inventario)), (120, 0))
