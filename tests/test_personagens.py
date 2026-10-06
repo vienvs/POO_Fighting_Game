@@ -35,3 +35,10 @@ class TestPersonagens(unittest.TestCase):
         p, alvo = Mago(), Guerreiro()
         p.atacar(alvo, sortear=Mock(return_value=1))
         self.assertEqual(alvo.vida, 124)
+
+    def test_magia_mago(self):
+        p, alvo = Mago(), Guerreiro()
+        p.atacar(alvo, 1, Mock(return_value=1))
+        self.assertEqual((alvo.vida, p.mana), (106, 52))
+        p.atacar(alvo, 2, Mock(return_value=100))
+        self.assertEqual(p.mana, 38)

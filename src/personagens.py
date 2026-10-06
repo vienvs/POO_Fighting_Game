@@ -2,32 +2,45 @@ from random import randint
 
 
 class Ataque:
-    def __init__(self, nome, dano, precisao):
+    def __init__(self, nome, dano, precisao, mana=0):
         if type(dano) is not int or dano < 0:
             raise ValueError("Dano deve ser um inteiro não negativo.")
+        if type(mana) is not int or mana < 0:
+            raise ValueError("Custo de mana deve ser um inteiro não negativo.")
         if type(precisao) is not int or not 0 <= precisao <= 100:
             raise ValueError("Precisão deve ser um inteiro entre 0 e 100.")
         self.nome = nome
         self.dano = dano
         self.precisao = precisao
+        self.mana = mana
 
     def __str__(self):
         texto = f"{self.nome}: {self.dano} dano, {self.precisao}%"
+        if self.mana:
+            texto += f", {self.mana} mana"
         return texto
 
 
 class Personagem:
-    def __init__(self, nome, vida):
+    def __init__(self, nome, vida, mana=0):
         if type(vida) is not int or vida <= 0:
             raise ValueError("Vida deve ser um inteiro positivo.")
+        if type(mana) is not int or mana < 0:
+            raise ValueError("Mana deve ser um inteiro não negativo.")
         self.nome = nome
         self.vida_maxima = vida
         self._vida = vida
+        self.mana_maxima = mana
+        self._mana = mana
         self.ataques = []
 
     @property
     def vida(self):
         return self._vida
+
+    @property
+    def mana(self):
+        return self._mana
 
     def esta_vivo(self):
         return self.vida > 0
@@ -45,6 +58,9 @@ class Personagem:
         if type(indice) is not int or not 0 <= indice < len(self.ataques):
             raise ValueError("Escolha um dos ataques disponíveis.")
         ataque = self.ataques[indice]
+        if ataque.mana > self.mana:
+            raise ValueError("Mana insuficiente. Use o ataque sem custo.")
+        self._mana -= ataque.mana
         if sortear(1, 100) > ataque.precisao:
             return f"{self.nome} errou {ataque.nome}."
         dano = alvo.receber_dano(ataque.dano)
@@ -67,5 +83,7 @@ class Inimigo(Personagem):
 
 class Mago(Personagem):
     def __init__(self):
-        super().__init__("Mago", 110)
-        self.ataques = [Ataque("Cajado", 16, 95)]
+        super().__init__("Mago", 110, 60)
+        self.ataques = [Ataque("Cajado", 16, 95),
+                        Ataque("Raio", 34, 90, 8),
+                        Ataque("Tempestade", 48, 75, 14)]
