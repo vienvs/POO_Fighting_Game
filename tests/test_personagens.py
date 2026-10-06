@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock
-from personagens import Personagem, Ataque, Guerreiro, Inimigo, Mago, PocaoVida, Arqueiro
+from personagens import Personagem, Ataque, Guerreiro, Inimigo, Mago, PocaoVida, Arqueiro, Orc
 
 
 class TestPersonagens(unittest.TestCase):
@@ -66,3 +66,9 @@ class TestPersonagens(unittest.TestCase):
         self.assertEqual(len(p.ataques), 3)
         p.atacar(alvo, 2, Mock(return_value=1))
         self.assertEqual(alvo.vida, 96)
+
+    def test_orc(self):
+        p, orc = Guerreiro(), Orc()
+        self.assertIsInstance(orc, Inimigo)
+        orc.atacar(p, sortear=Mock(return_value=1))
+        self.assertEqual(p.vida, 126)

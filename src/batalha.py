@@ -1,5 +1,5 @@
 from random import randint
-from personagens import Guerreiro, Inimigo, PocaoVida
+from personagens import Guerreiro, Inimigo, PocaoVida, Orc
 
 
 class Batalha:
@@ -33,7 +33,7 @@ class Torre:
         self.jogador.inventario = [PocaoVida() for _ in range(3)]
         self.inimigos = [
             Inimigo("Goblin", 65, 10, 80),
-            Inimigo("Lutador", 90, 14, 80),
+            Orc(),
             Inimigo("Duelista", 80, 15, 90),
             Inimigo("Berserker", 100, 18, 75),
             Inimigo("Assassino", 95, 16, 95),

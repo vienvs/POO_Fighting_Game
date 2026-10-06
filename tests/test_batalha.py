@@ -36,3 +36,6 @@ class TestBatalha(unittest.TestCase):
         torre.verificar_resultado()
         torre.avancar()
         self.assertEqual((torre.estado, torre.andar), ("derrota", 1))
+
+    def test_orc_na_torre(self):
+        self.assertEqual(Torre().inimigos[1].nome, "Orc")
