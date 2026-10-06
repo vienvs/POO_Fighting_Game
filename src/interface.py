@@ -1,10 +1,11 @@
 import pygame
-from personagens import Personagem, Guerreiro
+from personagens import Personagem, Guerreiro, Inimigo
 
 
 ARTES = {
     'Personagem': ['   O', '  /|\\', '  / \\'],
     'Guerreiro': ['   O   /', '  /|--/', ' [ |', '  / \\'],
+    'Inimigo': [' /\\ /\\', '( o o )', ' / V \\', '  / \\'],
 }
 
 
@@ -23,7 +24,7 @@ class Jogo:
 
     def reiniciar(self):
         self.jogador = self.classe()
-        self.inimigo = Personagem("Alvo", 100)
+        self.inimigo = Inimigo("Goblin", 65, 10, 80)
         self.mensagens = ["R: reiniciar. ESC: sair."]
 
     def eventos(self):
@@ -45,6 +46,8 @@ class Jogo:
             try:
                 if tecla in (pygame.K_1, pygame.K_2, pygame.K_3):
                     self.mensagens.append(self.jogador.atacar(self.inimigo, tecla - pygame.K_1))
+                elif tecla == pygame.K_e:
+                    self.mensagens.append(self.inimigo.atacar(self.jogador))
             except ValueError as erro:
                 self.mensagens.append(str(erro))
             self.mensagens = self.mensagens[-4:]
@@ -72,10 +75,11 @@ class Jogo:
         self.texto("POO FIGHTING GAME", 35, 25)
         self.texto('F1: Guerreiro | R: reiniciar | ESC: sair', 35, 57)
         self.personagem(jogador, jogador.nome, 50, (87, 207, 170))
-        arte = "Personagem"
+        arte = "Inimigo"
         self.personagem(inimigo, arte, 450, (236, 116, 112))
         for i, ataque in enumerate(jogador.ataques, 1):
             self.texto(f"{i}: {ataque}", 50, 460 + (i - 1) * 28)
+        self.texto("E: testar ataque do inimigo", 450, 400)
         for i, mensagem in enumerate(mensagens[-4:]):
             self.texto(mensagem, 35, 595 + i * 27)
         pygame.display.flip()

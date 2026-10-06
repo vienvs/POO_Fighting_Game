@@ -57,3 +57,9 @@ class Guerreiro(Personagem):
         self.ataques = [Ataque("Corte rapido", 18, 95),
                         Ataque("Espadada", 30, 80),
                         Ataque("Golpe pesado", 46, 60)]
+
+
+class Inimigo(Personagem):
+    def __init__(self, nome, vida, dano, precisao):
+        super().__init__(nome, vida)
+        self.ataques = [Ataque("Golpe", dano, precisao)]
