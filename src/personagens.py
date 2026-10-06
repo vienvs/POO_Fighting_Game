@@ -21,6 +21,12 @@ class Ataque:
         return texto
 
 
+class PocaoVida:
+    def usar(self, personagem):
+        cura = personagem.curar(50)
+        return f"{personagem.nome} recuperou {cura} de vida."
+
+
 class Personagem:
     def __init__(self, nome, vida, mana=0):
         if type(vida) is not int or vida <= 0:
@@ -51,6 +57,15 @@ class Personagem:
         recebido = min(self.vida, dano)
         self._vida -= recebido
         return recebido
+
+    def curar(self, quantidade):
+        if type(quantidade) is not int or quantidade <= 0:
+            raise ValueError("Cura deve ser um inteiro positivo.")
+        if not self.esta_vivo() or self.vida == self.vida_maxima:
+            raise ValueError("É preciso estar vivo e com vida incompleta.")
+        cura = min(quantidade, self.vida_maxima - self.vida)
+        self._vida += cura
+        return cura
 
     def atacar(self, alvo, indice=0, sortear=randint):
         if not self.esta_vivo() or not alvo.esta_vivo():

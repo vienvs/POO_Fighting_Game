@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock
-from personagens import Personagem, Ataque, Guerreiro, Inimigo, Mago
+from personagens import Personagem, Ataque, Guerreiro, Inimigo, Mago, PocaoVida
 
 
 class TestPersonagens(unittest.TestCase):
@@ -42,3 +42,11 @@ class TestPersonagens(unittest.TestCase):
         self.assertEqual((alvo.vida, p.mana), (106, 52))
         p.atacar(alvo, 2, Mock(return_value=100))
         self.assertEqual(p.mana, 38)
+
+    def test_pocao_cura_com_limite(self):
+        p = Guerreiro()
+        p.receber_dano(20)
+        PocaoVida().usar(p)
+        self.assertEqual(p.vida, 140)
+        with self.assertRaises(ValueError):
+            PocaoVida().usar(p)
