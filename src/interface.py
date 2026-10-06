@@ -1,5 +1,5 @@
 import pygame
-from personagens import Personagem, Guerreiro, Inimigo, Mago
+from personagens import Personagem, Guerreiro, Inimigo, Mago, PocaoVida
 
 
 ARTES = {
@@ -52,6 +52,8 @@ class Jogo:
                     self.mensagens.append(self.jogador.atacar(self.inimigo, tecla - pygame.K_1))
                 elif tecla == pygame.K_e:
                     self.mensagens.append(self.inimigo.atacar(self.jogador))
+                elif tecla == pygame.K_p:
+                    self.mensagens.append(PocaoVida().usar(self.jogador))
             except ValueError as erro:
                 self.mensagens.append(str(erro))
             self.mensagens = self.mensagens[-4:]
@@ -82,6 +84,7 @@ class Jogo:
         arte = "Inimigo"
         self.personagem(inimigo, arte, 450, (236, 116, 112))
         self.texto(f"Mana: {jogador.mana}/{jogador.mana_maxima}", 50, 400)
+        self.texto("P: usar poção (+50 vida)", 50, 430)
         for i, ataque in enumerate(jogador.ataques, 1):
             self.texto(f"{i}: {ataque}", 50, 460 + (i - 1) * 28)
         self.texto("E: testar ataque do inimigo", 450, 400)
