@@ -51,7 +51,8 @@ python -m venv .venv
 | `tests/test_personagens.py` | Testar dano, ataques, recursos e subclasses |
 | `tests/test_batalha.py` | Testar turnos e progressão da torre |
 | `tests/__init__.py` | Permitir aos testes importar os arquivos de `src` |
-| `requirements.txt` | Dependências do jogo e dos testes |
+| `requirements.txt` | Pygame para o jogo, pytest para testes e PyInstaller para o executável |
+| `build.ps1` | Testar e gerar o executável Windows |
 | `.gitignore` | Excluir ambiente virtual e arquivos gerados do Git |
 
 ## POO
@@ -72,3 +73,17 @@ O parâmetro `sortear` permite testar acertos e erros sem depender da sorte.
 As atividades seguem uma issue, uma branch e um PR por funcionalidade.
 Os testes são executados antes de cada merge. Trabalho individual, sem aprovação
 de terceiro. A interface segue a estrutura do exemplo `outro_jogo.py` da aula.
+
+## Executável Windows
+
+Baixe `POO_Fighting_Game.exe` em [Releases](https://github.com/vienvs/POO_Fighting_Game/releases).
+Ele abre com dois cliques e não precisa de Python instalado.
+
+Para gerar outra cópia, instale as dependências e execute na pasta do projeto:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File build.ps1
+```
+
+O arquivo fica em `dist/POO_Fighting_Game.exe`. As pastas `build` e `dist` são
+geradas localmente e não entram no Git. O PyInstaller é usado apenas nesta etapa.
