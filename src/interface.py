@@ -1,11 +1,12 @@
 import pygame
-from personagens import Personagem, Guerreiro, Inimigo
+from personagens import Personagem, Guerreiro, Inimigo, Mago
 
 
 ARTES = {
     'Personagem': ['   O', '  /|\\', '  / \\'],
     'Guerreiro': ['   O   /', '  /|--/', ' [ |', '  / \\'],
     'Inimigo': [' /\\ /\\', '( o o )', ' / V \\', '  / \\'],
+    'Mago': ['   /\\', '  /__\\', '   O  *', '  /|\\ |', '  / \\ |'],
 }
 
 
@@ -42,6 +43,9 @@ class Jogo:
         elif tecla == pygame.K_F1:
             self.classe = Guerreiro
             self.reiniciar()
+        elif tecla == pygame.K_F2:
+            self.classe = Mago
+            self.reiniciar()
         else:
             try:
                 if tecla in (pygame.K_1, pygame.K_2, pygame.K_3):
@@ -73,7 +77,7 @@ class Jogo:
         inimigo = self.inimigo
         mensagens = self.mensagens
         self.texto("POO FIGHTING GAME", 35, 25)
-        self.texto('F1: Guerreiro | R: reiniciar | ESC: sair', 35, 57)
+        self.texto('F1: Guerreiro | F2: Mago | R: reiniciar | ESC: sair', 35, 57)
         self.personagem(jogador, jogador.nome, 50, (87, 207, 170))
         arte = "Inimigo"
         self.personagem(inimigo, arte, 450, (236, 116, 112))

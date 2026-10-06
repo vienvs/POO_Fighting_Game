@@ -63,3 +63,9 @@ class Inimigo(Personagem):
     def __init__(self, nome, vida, dano, precisao):
         super().__init__(nome, vida)
         self.ataques = [Ataque("Golpe", dano, precisao)]
+
+
+class Mago(Personagem):
+    def __init__(self):
+        super().__init__("Mago", 110)
+        self.ataques = [Ataque("Cajado", 16, 95)]
