@@ -124,3 +124,8 @@ class Arqueiro(Personagem):
         self.ataques = [Ataque("Tiro rapido", 20, 95),
                         Ataque("Tiro preciso", 31, 85),
                         Ataque("Flecha pesada", 44, 65)]
+
+
+class Orc(Inimigo):
+    def __init__(self):
+        super().__init__("Orc", 90, 14, 80)
