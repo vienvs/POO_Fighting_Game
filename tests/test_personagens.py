@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock
-from personagens import Personagem, Ataque, Guerreiro, Inimigo
+from personagens import Personagem, Ataque, Guerreiro, Inimigo, Mago
 
 
 class TestPersonagens(unittest.TestCase):
@@ -30,3 +30,8 @@ class TestPersonagens(unittest.TestCase):
         p = Guerreiro()
         Inimigo("Goblin", 65, 10, 80).atacar(p, sortear=Mock(return_value=1))
         self.assertEqual(p.vida, 130)
+
+    def test_cajado_mago(self):
+        p, alvo = Mago(), Guerreiro()
+        p.atacar(alvo, sortear=Mock(return_value=1))
+        self.assertEqual(alvo.vida, 124)
